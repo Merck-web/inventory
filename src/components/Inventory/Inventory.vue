@@ -49,13 +49,15 @@ const different = 25 - itemsInvent.value.length;
 for (let i = 0; i < different; i++){
   itemsInvent.value.push({ key: 0, count: 0 })
 }
-const loading = ref(false);
+const loading = ref(true);
 const infoVisible = ref(true);
 
-onMounted(_=>{
+onMounted(async _=>{
+  await new Promise(v => setTimeout(v, 1000));
   const inventory = JSON.parse(localStorage.getItem('inventory')) || [];
   if (!inventory.length) localStorage.setItem('inventory', JSON.stringify(itemsInvent.value));
   else itemsInvent.value = inventory;
+  loading.value = false;
 })
 function updateChangeList(){
   localStorage.setItem('inventory', JSON.stringify(itemsInvent.value))
@@ -91,7 +93,8 @@ function updateChangeList(){
   .info {
     border-radius: 12px;
     padding: 15px;
-    border: 1px solid #4D4D4D
+    border: 1px solid #4D4D4D;
+    background:  linear-gradient(0deg, #262626, #262626);
   }
 }
 </style>
