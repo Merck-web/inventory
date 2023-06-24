@@ -11,7 +11,9 @@
     <div class="items">
       <Items
           :data="itemsInvent"
+          :loading="loading"
           @changeList="updateChangeList"
+          @deleteCount="deleteCount"
       />
     </div>
     <div
@@ -61,6 +63,10 @@ onMounted(async _=>{
 })
 function updateChangeList(){
   localStorage.setItem('inventory', JSON.stringify(itemsInvent.value))
+}
+function deleteCount(newData){
+  itemsInvent.value[newData.index] = newData.newObj;
+  updateChangeList()
 }
 </script>
 

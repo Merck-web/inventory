@@ -1,25 +1,48 @@
 <template>
   <div class="items_wrapper">
-    <VueDraggableNext class="dragArea list-group w-full" @end="emits('changeList')" :list="data">
-      <div
-          v-for="(item, index) in data"
-          :key="index"
-          class="item"
-      >
-        <div class="img" :style="{'background-image': `url(${generateIMG(item.key)})`}"/>
-        <div v-if="item.count" class="count" v-text="item.count"/>
-      </div>
-    </VueDraggableNext>
+    <template v-if="loading">
+      <Skeleton width="100%" height="100%"/>
+    </template>
+    <template v-else>
+      <VueDraggableNext class="dragArea list-group w-full" @end="emits('changeList')" :list="data">
+        <div
+            v-for="(item, index) in data"
+            :key="index"
+            class="item"
+            @click="openInfoDialog(item, index)"
+        >
+          <div class="img" :style="{'background-image': `url(${generateIMG(item.key)})`}"/>
+          <div v-if="item.count" class="count" v-text="item.count"/>
+        </div>
+      </VueDraggableNext>
+    </template>
 
+
+    <ItemDialog
+        :model-value="itemsInfoDialog"
+        :data="infoDataItems"
+        @update:model-value="newValue => itemsInfoDialog = newValue"
+        @deleteCount="deleteCount"
+    />
   </div>
 </template>
 
 <script setup>
 import { VueDraggableNext } from 'vue-draggable-next'
+import ItemDialog from "@/components/Items/components/ItemDialog";
+import {ref} from "vue";
+import Skeleton from "@/components/Skeleton";
+
 const props = defineProps({
-  data: { type: Array, default: [] }
+  data:    { type: Array, default: [] },
+  loading: { type: Boolean, default: false }
 });
-const emits = defineEmits(['changeList'])
+const emits = defineEmits(['changeList', 'deleteCount']);
+
+const itemsInfoDialog = ref(false);
+const infoDataItems   = ref({});
+const changeItemIndex = ref(null);
+
 function generateIMG(key){
   if (!key) return ''
   switch (key){
@@ -33,6 +56,18 @@ function generateIMG(key){
       return ''
   }
 }
+function openInfoDialog(item, index) {
+  if (!item.count || !item.key) return
+  infoDataItems.value   = item;
+  changeItemIndex.value = index;
+  itemsInfoDialog.value = true;
+}
+function deleteCount(newObj) {
+  emits('deleteCount', {index: changeItemIndex.value, newObj: newObj});
+  itemsInfoDialog.value = false;
+  infoDataItems.value   = {};
+  changeItemIndex.value = null;
+}
 </script>
 
 <style lang="scss" scoped>
@@ -40,6 +75,9 @@ function generateIMG(key){
   width: 100%;
   height: 100%;
   border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+  padding: 5px;
   .dragArea{
     width: 100%;
     height: 100%;
