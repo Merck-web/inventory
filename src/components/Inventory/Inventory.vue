@@ -66,6 +66,9 @@ function updateChangeList(){
 }
 function deleteCount(newData){
   itemsInvent.value[newData.index] = newData.newObj;
+  if (itemsInvent.value[newData.index].count <= 0){
+    itemsInvent.value[newData.index] = { key: 0, count: 0 }
+  }
   updateChangeList()
 }
 </script>
