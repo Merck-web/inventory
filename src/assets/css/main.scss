@@ -1,0 +1,21 @@
+html, body {
+  background: linear-gradient(0deg, #262626, #262626),
+  linear-gradient(0deg, #4D4D4D, #4D4D4D);
+  color: white;
+}
+
+.q-mb-xs{
+  margin-bottom: 8px;
+}
+.q-mb-md{
+  margin-bottom: 16px;
+}
+
+.q-mx-auto{
+  margin-left: auto;
+  margin-right: auto;
+}
+
+* {
+  box-sizing: border-box;
+}

@@ -1,16 +1,15 @@
 <template>
-  <div class="tst">asd</div>
+  <div class="wrapper">
+    <Inventory />
+  </div>
 </template>
 
-<script>
-
-export default {
-  name: 'App',
-}
+<script setup>
+import Inventory from "@/components/Inventory/Inventory";
 </script>
 
-<style lang="scss">
-.tst{
-  background-color: red;
+<style lang="scss" scoped>
+.wrapper{
+
 }
 </style>
