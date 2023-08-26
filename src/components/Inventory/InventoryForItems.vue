@@ -22,7 +22,7 @@
     >
       <Info
           :loading="loading"
-          :description="'hasdjhbasd asdjhasgdijb sadkjhasid askdhujaskd'"
+          description="hasdjhbasd asdjhasgdijb sadkjhasid askdhujaskd"
           @close="infoVisible = false"
       />
     </div>
@@ -30,46 +30,46 @@
 </template>
 
 <script setup>
-import {onMounted, ref} from 'vue';
-import Preview from "@/components/Inventory/components/Preview";
-import Info from "@/components/Info/Info";
-import Items from "@/components/Items/Items";
+import { onMounted, ref } from 'vue';
+import Preview from '@/components/Inventory/components/PreviewItem.vue';
+import Info from '@/components/Info/InfoItem.vue';
+import Items from '@/components/Items/ItemsInventory.vue';
 
 const targetItem = ref({
   imageURL: '/images/preview/preview.png',
   title: 'Крутая шмотка',
   description: 'Нереально крутая шмотка',
-})
+});
 const itemsInvent = ref([
   { key: 1, count: 4 },
   { key: 2, count: 4 },
   { key: 3, count: 4 },
   { key: 2, count: 4 },
   { key: 1, count: 4 },
-])
+]);
 const different = 25 - itemsInvent.value.length;
-for (let i = 0; i < different; i++){
-  itemsInvent.value.push({ key: 0, count: 0 })
+for (let i = 0; i < different; i += 1) {
+  itemsInvent.value.push({ key: 0, count: 0 });
 }
 const loading = ref(true);
 const infoVisible = ref(true);
 
-onMounted(async _=>{
-  await new Promise(v => setTimeout(v, 1000));
+onMounted(async () => {
+  await new Promise((v) => setTimeout(v, 1000));
   const inventory = JSON.parse(localStorage.getItem('inventory')) || [];
   if (!inventory.length) localStorage.setItem('inventory', JSON.stringify(itemsInvent.value));
   else itemsInvent.value = inventory;
   loading.value = false;
-})
-function updateChangeList(){
-  localStorage.setItem('inventory', JSON.stringify(itemsInvent.value))
+});
+function updateChangeList() {
+  localStorage.setItem('inventory', JSON.stringify(itemsInvent.value));
 }
-function deleteCount(newData){
+function deleteCount(newData) {
   itemsInvent.value[newData.index] = newData.newObj;
-  if (itemsInvent.value[newData.index].count <= 0){
-    itemsInvent.value[newData.index] = { key: 0, count: 0 }
+  if (itemsInvent.value[newData.index].count <= 0) {
+    itemsInvent.value[newData.index] = { key: 0, count: 0 };
   }
-  updateChangeList()
+  updateChangeList();
 }
 </script>
 

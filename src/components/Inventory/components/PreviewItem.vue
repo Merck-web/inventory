@@ -18,14 +18,14 @@
 </template>
 
 <script setup>
-import Skeleton from "@/components/Skeleton";
+import Skeleton from '@/components/SkeletonDefault.vue';
 
 const props = defineProps({
-  imageURL:    { type: String, default: '' },
-  title:       { type: String, default: '' },
+  imageURL: { type: String, default: '' },
+  title: { type: String, default: '' },
   description: { type: String, default: '' },
-  loading:     { type: Boolean, default: false },
-})
+  loading: { type: Boolean, default: false },
+});
 </script>
 
 <style lang="scss" scoped>

@@ -14,11 +14,11 @@
 
 <script setup>
 const props = defineProps({
-  width:       { type: String, default: '1920px' },
-  height:      { type: String, default: '' },
-  br:          { type: String, default: '8px' },
-  noCenter:    { type: Boolean, default: false },
-})
+  width: { type: String, default: '1920px' },
+  height: { type: String, default: '' },
+  br: { type: String, default: '8px' },
+  noCenter: { type: Boolean, default: false },
+});
 </script>
 
 <style lang="scss" scoped>

@@ -10,13 +10,13 @@
             :key="index"
             class="item"
             @click="openInfoDialog(item, index)"
+            @keydown="openInfoDialog(item, index)"
         >
           <div class="img" :style="{'background-image': `url(${generateIMG(item.key)})`}"/>
           <div v-if="item.count" class="count" v-text="item.count"/>
         </div>
       </VueDraggableNext>
     </template>
-
 
     <ItemDialog
         :model-value="itemsInfoDialog"
@@ -28,44 +28,44 @@
 </template>
 
 <script setup>
-import { VueDraggableNext } from 'vue-draggable-next'
-import ItemDialog from "@/components/Items/components/ItemDialog";
-import {ref} from "vue";
-import Skeleton from "@/components/Skeleton";
+import { VueDraggableNext } from 'vue-draggable-next';
+import ItemDialog from '@/components/Items/components/ItemDialog.vue';
+import { ref } from 'vue';
+import Skeleton from '@/components/SkeletonDefault.vue';
 
-const props = defineProps({
-  data:    { type: Array, default: [] },
-  loading: { type: Boolean, default: false }
+defineProps({
+  data: { type: Array, default: () => [] },
+  loading: { type: Boolean, default: false },
 });
 const emits = defineEmits(['changeList', 'deleteCount']);
 
 const itemsInfoDialog = ref(false);
-const infoDataItems   = ref({});
+const infoDataItems = ref({});
 const changeItemIndex = ref(null);
 
-function generateIMG(key){
-  if (!key) return ''
-  switch (key){
+function generateIMG(key) {
+  if (!key) return '';
+  switch (key) {
     case 1:
-      return '/images/items/green.png'
+      return '/images/items/green.png';
     case 2:
-      return '/images/items/orange.png'
+      return '/images/items/orange.png';
     case 3:
-      return '/images/items/purple.png'
+      return '/images/items/purple.png';
     default:
-      return ''
+      return '';
   }
 }
 function openInfoDialog(item, index) {
-  if (!item.count || !item.key) return
-  infoDataItems.value   = item;
+  if (!item.count || !item.key) return;
+  infoDataItems.value = item;
   changeItemIndex.value = index;
   itemsInfoDialog.value = true;
 }
 function deleteCount(newObj) {
-  emits('deleteCount', {index: changeItemIndex.value, newObj: newObj});
+  emits('deleteCount', { index: changeItemIndex.value, newObj });
   itemsInfoDialog.value = false;
-  infoDataItems.value   = {};
+  infoDataItems.value = {};
   changeItemIndex.value = null;
 }
 </script>

@@ -1,9 +1,22 @@
 <template>
     <div v-if="modelValue" class="item_dialog_wrapper">
       <div class="content">
-        <div @click="emits('update:modelValue', false)" class="close">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M18 7.05L16.95 6L12 10.95L7.05 6L6 7.05L10.95 12L6 16.95L7.05 18L12 13.05L16.95 18L18 16.95L13.05 12L18 7.05Z" fill="white"/>
+        <div
+          class="close"
+          @click="emits('update:modelValue', false)"
+          @keydown.esc="emits('update:modelValue', false)"
+        >
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path d="M18 7.05L16.95 6L12 10.95L7.05 6L6 7.05L10.95 12L6 16.95L7.05
+            18L12 13.05L16.95 18L18 16.95L13.05 12L18 7.05Z"
+                  fill="white"
+            />
           </svg>
         </div>
         <div class="up">
@@ -32,32 +45,35 @@
 
 <script setup>
 
-import {ref} from "vue";
+import { ref } from 'vue';
 
 const props = defineProps({
   modelValue: { type: Boolean, default: false },
-  data:       { type: Object, default: {} }
-})
+  data: { type: Object, default: () => {} },
+});
 const emits = defineEmits(['update:modelValue', 'deleteCount']);
 
 const deleteActions = ref(false);
-const deleteActionsCount = ref(null)
+const deleteActionsCount = ref(null);
 
 function generateIMG(key) {
-  if (!key) return ''
-  switch (key){
+  if (!key) return '/images/items/green.png';
+  switch (key) {
     case 1:
-      return '/images/items/green.png'
+      return '/images/items/green.png';
     case 2:
-      return '/images/items/orange.png'
+      return '/images/items/orange.png';
     case 3:
-      return '/images/items/purple.png'
+      return '/images/items/purple.png';
     default:
-      return ''
+      return '/images/items/green.png';
   }
 }
 function approve() {
-  if (!deleteActionsCount.value || +deleteActionsCount.value > props.data.count || !isNAN(+deleteActionsCount.value)) return ''
+  const deleteCount = !deleteActionsCount.value
+    || +deleteActionsCount.value > props.data.count
+    || !isNAN(+deleteActionsCount.value);
+  if (deleteCount) return;
   emits('deleteCount', { ...props.data, count: props.data.count - +deleteActionsCount.value });
   deleteActions.value = false;
   deleteActionsCount.value = null;
@@ -69,10 +85,9 @@ function reset() {
 }
 
 function isNAN(value) {
-  if(value instanceof Number)
-    value = value.valueOf();
+  if (value instanceof Number) { value = value.valueOf(); }
 
-  return  isFinite(value) && value === parseInt(value, 10);
+  return isFinite(+value) && value === parseInt(value, 10);
 }
 </script>
 
@@ -105,7 +120,6 @@ function isNAN(value) {
       background-position: center;
       margin: 50px auto 20px;
     }
-
 
     .text{
       padding: 5px 0;

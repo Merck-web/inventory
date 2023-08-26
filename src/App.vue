@@ -5,11 +5,5 @@
 </template>
 
 <script setup>
-import Inventory from "@/components/Inventory/Inventory";
+import Inventory from '@/components/Inventory/InventoryForItems.vue';
 </script>
-
-<style lang="scss" scoped>
-.wrapper{
-
-}
-</style>
